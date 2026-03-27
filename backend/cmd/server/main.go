@@ -4,18 +4,16 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/JacobBananalDev/lacylorel/backend/internal/handlers"
+	"github.com/JacobBananalDev/lacylorel/backend/internal/routes"
 )
 
-
 func main() {
-	// Register the health check handler for "/health" endpoint
-	http.HandleFunc("/health", handlers.HealthCheckHandler)
+	// Register the routes
+	router := routes.RegisterRoutes()
 
-	// Start the server on port 8080
-	log.Printf("Server starting on port 8080...")
+	log.Println("Server starting on port 8080...")
 
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(":8080", router); err != nil {
 		log.Fatal("HTTP server failed: ", err)
 	}
 }
