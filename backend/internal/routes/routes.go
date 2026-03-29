@@ -25,6 +25,7 @@ func RegisterRoutes() http.Handler {
 
 	// API v1 routes
 	r.Get("/api/v1/health", handlers.HealthCheckHandler)
-
+	r.Get("/api/v1/products", handlers.GetProducts)
+	
 	return r
 }
