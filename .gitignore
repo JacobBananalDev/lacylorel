@@ -1,0 +1,59 @@
+# -----------------------------
+# Go
+# -----------------------------
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go build files
+*.test
+*.out
+
+# Dependency directories
+vendor/
+
+# -----------------------------
+# Node / Next.js (frontend)
+# -----------------------------
+node_modules/
+.next/
+out/
+dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# -----------------------------
+# Environment variables
+# -----------------------------
+.env
+.env.*
+!.env.example
+
+# -----------------------------
+# Docker
+# -----------------------------
+*.log
+docker-compose.override.yml
+
+# -----------------------------
+# OS / Editor
+# -----------------------------
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
+
+# -----------------------------
+# Database (optional safety)
+# -----------------------------
+*.sqlc.json
