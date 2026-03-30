@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/JacobBananalDev/lacylorel/backend/internal/database"
 	"github.com/JacobBananalDev/lacylorel/backend/internal/handlers"
 	"github.com/JacobBananalDev/lacylorel/backend/internal/repository"
 	"github.com/JacobBananalDev/lacylorel/backend/internal/services"
@@ -28,7 +29,9 @@ func RegisterRoutes() http.Handler {
 	// API v1 routes
 	r.Get("/api/v1/health", handlers.HealthCheckHandler)
 
-	repo := repository.NewProductRepository()
+	db := database.NewPostgresConnection()
+
+	repo := repository.NewProductRepository(db)
 	service := services.NewProductService(repo)
 	handler := handlers.NewProductHandler(service)
 

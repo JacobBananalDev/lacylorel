@@ -1,43 +1,54 @@
 package repository
 
 import (
-	"time"
+	"context"
 
 	"github.com/JacobBananalDev/lacylorel/backend/internal/models"
+	"github.com/jackc/pgx/v5"
 )
 
 type ProductRepository interface {
 	GetProducts() ([]models.Product, error)
 }
 
-type productRepository struct{}
+type productRepository struct {
+	db *pgx.Conn
+}
 
-func NewProductRepository() ProductRepository {
-	return &productRepository{}
+func NewProductRepository(db *pgx.Conn) ProductRepository {
+	return &productRepository{
+		db: db,
+	}
 }
 
 func (r *productRepository) GetProducts() ([]models.Product, error) {
-	// TODO: replace with database query
+	rows, err := r.db.Query(context.Background(), `
+		SELECT id, name, description, price, image_url, created_at, updated_at
+		FROM products
+	`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
-	products := []models.Product{
-		{
-			ID:          1,
-			Name:        "Product 1",
-			Description: "Description for product 1",
-			Price:       1000,
-			ImageURL:    "https://example.com/product1.jpg",
-			CreatedAt:   time.Now(),
-			UpdatedAt:   time.Now(),
-		},
-		{
-			ID:          2,
-			Name:        "Product 2",
-			Description: "Description for product 2",
-			Price:       2000,
-			ImageURL:    "https://example.com/product2.jpg",
-			CreatedAt:   time.Now(),
-			UpdatedAt:   time.Now(),
-		},
+	var products []models.Product
+
+	for rows.Next() {
+		var p models.Product
+		err := rows.Scan(
+			&p.ID,
+			&p.Name,
+			&p.Description,
+			&p.Price,
+			&p.ImageURL,
+			&p.CreatedAt,
+			&p.UpdatedAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		products = append(products, p)
 	}
 
 	return products, nil
