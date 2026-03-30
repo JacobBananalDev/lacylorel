@@ -5,6 +5,8 @@ import (
 	"time"
 
 	"github.com/JacobBananalDev/lacylorel/backend/internal/handlers"
+	"github.com/JacobBananalDev/lacylorel/backend/internal/repository"
+	"github.com/JacobBananalDev/lacylorel/backend/internal/services"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -25,7 +27,12 @@ func RegisterRoutes() http.Handler {
 
 	// API v1 routes
 	r.Get("/api/v1/health", handlers.HealthCheckHandler)
-	r.Get("/api/v1/products", handlers.GetProducts)
-	
+
+	repo := repository.NewProductRepository()
+	service := services.NewProductService(repo)
+	handler := handlers.NewProductHandler(service)
+
+	r.Get("/api/v1/products", handler.GetProducts)
+
 	return r
 }
