@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS products (
     image_url TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
-);  \   
+);
